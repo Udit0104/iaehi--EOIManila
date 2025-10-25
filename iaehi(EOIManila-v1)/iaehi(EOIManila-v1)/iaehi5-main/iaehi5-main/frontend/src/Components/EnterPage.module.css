@@ -1,0 +1,95 @@
+.enterpageContainer {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+  text-align: center;
+  padding-top: 5rem;
+  align-items: center;
+  flex-direction: column;
+}
+
+.btnsDiv {
+  margin-top: 2rem;
+  display: flex;
+  width: 60%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pic {
+  position: absolute;
+  width: 15%;
+  height: auto;
+  bottom: 5%;
+  right: 75%;
+  animation: fadeIn 1.5s;
+}
+
+.spanStyle {
+  color: #ffc815;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Tablet responsiveness */
+@media only screen and (max-width: 900px) {
+  .btnsDiv {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pic {
+    width: 25%;
+    right: 65%;
+    bottom: 6%;
+  }
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 600px) {
+  .enterpageContainer {
+    padding-top: 2rem;
+  }
+  .btnsDiv {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .pic {
+    width: 40%;
+    right: 30%;
+    bottom: 4rem;
+    position: static;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Button styles */
+.btnsDiv button,
+.btnsDiv .MuiButton-root {
+  background-color: #1b263b !important;   /* dark blue */
+  color: #fff !important;
+  border: none;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.btnsDiv button:hover,
+.btnsDiv .MuiButton-root:hover {
+  background-color: #1976d2 !important;   /* lighter blue on hover */
+  color: #fff !important;
+}
