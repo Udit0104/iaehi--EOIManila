@@ -45,7 +45,7 @@ export default function LoginForm({ open, onClose, title }) {
 
   const submitHandle = () => {
     axios
-      .post(`${url}/login`, { username, password }) // Use your backend URL
+      .post(`${url}/admin/login`, { username, password }) // Use your backend URL
       .then((res) => {
         sessionStorage.setItem("admin", "1");
         sessionStorage.setItem("role", res.data.role);

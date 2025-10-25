@@ -1,4 +1,3 @@
-// filepath: /c:/Users/uditv/OneDrive/Desktop/iaehi/backend/routes/admin.js
 const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 const express = require('express');
@@ -25,13 +24,5 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
-// Helpful GET on /admin to confirm route is alive and document available endpoints
-// router.get('/', (req, res) => {
-//   res.json({
-//     message: 'Admin route is active',
-//     available: ['POST /admin/login']
-//   });
-// });
 
 module.exports = router;
