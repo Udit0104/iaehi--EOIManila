@@ -1,5 +1,3 @@
-// filepath: /c:/Users/uditv/OneDrive/Desktop/iaehi/backend/server.js
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,11 +9,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// In-memory store for OTPs (for demo; use DB/Redis for production)
 const otpStore = {};
 
 // OTP Send Endpoint
@@ -60,12 +56,10 @@ app.post("/api/verify-otp", (req, res) => {
   }
 });
 
-// Root endpoint
 app.get("/", (req, res) => {
   res.send("Hello from the backend server!");
 });
 
-// Connect to MongoDB and load routes
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,

@@ -9,8 +9,8 @@ async function createAdmins() {
 
   await Admin.create([
     {
-      username: "EOIManila",
-      password: "EOIManila", // will be hashed automatically
+      username: "eoimadmin",
+      password: "eoimpass", // will be hashed automatically
       role: "superadmin",
       department: null,
     },
