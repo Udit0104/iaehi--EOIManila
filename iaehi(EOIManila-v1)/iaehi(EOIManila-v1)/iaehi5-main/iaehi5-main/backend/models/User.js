@@ -1,4 +1,3 @@
-// filepath: backend/models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -10,10 +9,10 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, required: true },
   score: { type: Number },
   result: { type: String },
-  language: { type: String, default: 'en' }, // Default language is English
-  isHappyWithResult: { type: Boolean }, // <-- feedback field
-  timestamp: { type: Date },            // <-- feedback field
-  role: { type: String, required: false } // Add role as a reference
+  language: { type: String, default: 'en' },
+  isHappyWithResult: { type: Boolean },
+  timestamp: { type: Date },           
+  role: { type: String, required: false }
 
 });
 
