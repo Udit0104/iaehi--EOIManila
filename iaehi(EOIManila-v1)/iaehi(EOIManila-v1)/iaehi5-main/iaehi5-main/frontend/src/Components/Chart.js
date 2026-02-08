@@ -68,7 +68,19 @@ export default function ReactChart(props) {
     return percentateArr;
   };
 
-  const getChart = (groupPercentageArr, uniqueItems) => {
+  const getCountData = (arr, uniqueItems) => {
+    const countArr = [];
+    uniqueItems.forEach((currVal) => {
+      const numItems = arr.filter((val) => val === currVal);
+      countArr.push(numItems.length);
+    });
+    return countArr;
+  };
+
+  const getChart = (groupPercentageArr, uniqueItems, countData = null) => {
+    // Prepare a mapping of counts by series/dataPoint for tooltip lookup
+    const countsMapping = countData ? countData : null;
+
     setState({
       series: groupPercentageArr,
       options: {
@@ -128,7 +140,20 @@ export default function ReactChart(props) {
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function (val, opts) {
+              try {
+                const sIdx = opts.seriesIndex;
+                const dIdx = opts.dataPointIndex;
+                const cnt =
+                  countsMapping &&
+                  countsMapping[sIdx] &&
+                  countsMapping[sIdx][dIdx] !== undefined
+                    ? countsMapping[sIdx][dIdx]
+                    : null;
+                if (cnt !== null) return cnt;
+              } catch (e) {
+                // fallback to percentage if anything goes wrong
+              }
               return val + " %";
             },
           },
@@ -173,7 +198,8 @@ export default function ReactChart(props) {
           obj.name = "Overall";
           obj.data = percentageCal(selectedRes, uniqueItems);
           groupPercentageArr.push(obj);
-          getChart(groupPercentageArr, uniqueItems);
+          const counts = getCountData(selectedRes, uniqueItems);
+          getChart(groupPercentageArr, uniqueItems, [counts]);
         })
         .catch((err) => {
           console.log(err);
@@ -200,7 +226,8 @@ export default function ReactChart(props) {
         obj.name = "Overall";
         obj.data = percentageCal(selectedRes, uniqueItems);
         groupPercentageArr.push(obj);
-        getChart(groupPercentageArr, uniqueItems);
+        const counts = getCountData(selectedRes, uniqueItems);
+        getChart(groupPercentageArr, uniqueItems, [counts]);
       } 
       // else if (selectedValue === "feedback") {
       //   axios
@@ -258,6 +285,7 @@ export default function ReactChart(props) {
           const selectedRes = filteredData.map((e) => e[selectedValue]);
           const arrLength = selectedRes.length;
           const uniqueSelectedItems = new Set(selectedRes);
+          const countDataArray = [];
           uniqueSelectedItems.forEach((item) => {
             const arr = [];
             const obj = {};
@@ -268,14 +296,17 @@ export default function ReactChart(props) {
             });
             obj.name = item;
             obj.data = percentageCal(arr, uniqueItems, arrLength);
+            const counts = getCountData(arr, uniqueItems);
+            countDataArray.push(counts);
             groupPercentageArr.push(obj);
           });
-          getChart(groupPercentageArr, uniqueItems);
+          getChart(groupPercentageArr, uniqueItems, countDataArray);
         } else {
           const selectedRes = filteredData.map((e) => e.result);
           const selectedValues = filteredData.map((e) => e[selectedValue]);
           const arrLength = selectedRes.length;
           const uniqueSelectedItems = [...new Set(selectedValues)];
+          const countDataArray = [];
           uniqueItems.forEach((item) => {
             const arr = [];
             const obj = {};
@@ -286,9 +317,11 @@ export default function ReactChart(props) {
             });
             obj.name = item;
             obj.data = percentageCal(arr, uniqueSelectedItems, arrLength);
+            const counts = getCountData(arr, uniqueSelectedItems);
+            countDataArray.push(counts);
             groupPercentageArr.push(obj);
           });
-          getChart(groupPercentageArr, uniqueSelectedItems);
+          getChart(groupPercentageArr, uniqueSelectedItems, countDataArray);
         }
       }
     }
